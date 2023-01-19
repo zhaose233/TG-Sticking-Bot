@@ -4,9 +4,9 @@
 
 ## 使用方法
 
-- 申請一個 Telegram Bot 皂 token，把 group privicy 設為能收到羣內所有消息
+- 申請一個 Telegram Bot 的 token，把 group privicy 設為能收到羣內所有消息
 - 在 main.rkt 的同級目錄下新建一個名為 `token` 的文件
 - 把 token 填到 `token` 文件裡
-- ｀racket main.rkt` 運行 Bot
+- `racket main.rkt` 運行 Bot
 
 注意：在某些情況下運行它需要代理，可以設置 all_proxy 環璄變數來實現

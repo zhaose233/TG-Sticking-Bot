@@ -18,22 +18,26 @@
                                            "/")))
 
 ;; 最後一次返回的 Update Result 的 ID
-(define last-id 0)
+(define last-id -1)
 
 (define (bot-get-updates)
   (let* [(u-1 (combine-url/relative u-base "getUpdates"))
          (u-final (struct-copy url u-1
-                               [query `((offset . "-1"))])) ; 拼接 URL
-         (res (read-json (get-pure-port u-final))) ; 請求最新一條 Update
-         (result (car
-                  (hash-ref res 'result)))
-         (update-id (hash-ref result 'update_id))]
+                               [query `((offset . ,(number->string (+ 1 last-id)))
+                                        (limit . "1"))])) ; 拼接 URL
+         (res (read-json (get-pure-port u-final)))] ; 請求最新一條 Update
 
-    (cond [(<= update-id last-id) (bot-get-updates)] ; 如果發現這條 Update 已處理過則重新嘗試
+    (cond [(null? (hash-ref res 'result)) (bot-get-updates)]
           [else
-           (set! last-id update-id)
-           result]) ; 更新 UpdateID 並返回 Update
-    ))
+           (let* [(result (car
+                           (hash-ref res 'result)))
+                  (update-id (hash-ref result 'update_id))]
+
+             (cond [(<= update-id last-id) (bot-get-updates)] ; 如果發現這條 Update 已處理過則重新嘗試
+                   [else
+                    (set! last-id update-id)
+                    result]) ; 更新 UpdateID 並返回 Update
+             )])))
 
 ;; 發送貼紙的函數
 (define (send-sticker chat-id sticker

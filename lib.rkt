@@ -35,6 +35,7 @@
            result]) ; 更新 UpdateID 並返回 Update
     ))
 
+;; 發送貼紙的函數
 (define (send-sticker chat-id sticker
                       #:reply-to [reply-to #f])
   (let* [(u-1 (combine-url/relative u-base "sendSticker"))

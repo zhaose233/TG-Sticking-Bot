@@ -28,8 +28,12 @@
 
 
 (let loop ()
-  (let [(update (bot-get-updates))]
-    (displayln update)
-    (sticking-handler update))
-  (loop))
-  
+  (with-handlers
+      ([exn:fail?
+        (lambda (e)
+          (displayln 'SOME_ERROR))])
+    (let [(update (bot-get-updates))]
+      (displayln update)
+      (sticking-handler update)))
+    (loop))
+

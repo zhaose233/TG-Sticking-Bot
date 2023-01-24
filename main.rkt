@@ -20,7 +20,8 @@
            (if (or (string-contains? text "贴贴") ; 含有貼貼嗎
                    (string-contains? text "貼貼"))
                (send-sticker chat-id
-                             "CAACAgUAAx0CZJmRBgABAV7RY8kEaZsPNWSat0aU9IqM_UIySJ0AAocIAAJX86lUETdZk75Oyn4tBA" ; 大姐姐貼虹夏的貼紙
+                             "CAACAgUAAx0CZJmRBgABAV7RY8kEaZsPNWSat0aU9IqM_UIySJ0AAocIAAJX86lUETdZk75Oyn4tBA"
+                             ;; 大姐姐貼虹夏的貼紙
                              #:reply-to message-id)
                (void)))
            ]
@@ -35,5 +36,6 @@
     (let [(update (bot-get-updates))]
       (displayln update)
       (sticking-handler update)))
-    (loop))
+  (sleep 0.1)
+  (loop))
 
